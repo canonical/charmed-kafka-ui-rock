@@ -44,7 +44,8 @@ parts:
     override-build: |
       ln -s /usr/lib/jvm/java-21-openjdk-amd64/bin/java \
         $CRAFT_PART_INSTALL/usr/bin/java
-
+     ln -s /usr/lib/jvm/java-21-openjdk-amd64/bin/keytool 
+       $CRAFT_PART_INSTALL/usr/bin/keytool
       # making core dirs
       mkdir -p $CRAFT_PART_INSTALL/var/lib/pebble/default/
       mkdir -p $CRAFT_PART_INSTALL/opt/kafka-ui/
