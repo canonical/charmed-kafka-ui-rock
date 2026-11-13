@@ -3,7 +3,7 @@
 ---
 name: charmed-kafka-ui
 base: ubuntu@24.04
-version: '1.3.0'
+version: '1.5.0'
 summary: Charmed Kafka Rock OCI
 description: |
   This is an OCI that provides `kafbat/kafka-ui`, intended for use in the
@@ -12,6 +12,7 @@ license: Apache-2.0
 
 platforms:
   amd64:
+  arm64:
 
 services:
   kafka-ui:
@@ -21,30 +22,30 @@ services:
         -Dspring.config.additional-location=$KAFKA_UI_CONFIG \
         --add-opens java.rmi/javax.rmi.ssl=ALL-UNNAMED \
         $JAVA_OPTS \
-        -jar /opt/kafka-ui/libs/api-1.3.0.jar
+        -jar /opt/kafka-ui/libs/api-1.5.0.jar
     startup: enabled
     user: kafka-ui
     group: kafka-ui
     environment:
-      JAVA_HOME: /usr/lib/jvm/java-21-openjdk-amd64
+      JAVA_HOME: /usr/lib/jvm/java-25-openjdk-$CRAFT_ARCH_BUILD_FOR
       KAFKA_UI_CONFIG: /etc/kafka-ui/application-local.yml
 
 parts:
   kafka-ui:
     plugin: nil
     stage-packages:
-      - openjdk-21-jdk
+      - openjdk-25-jdk
       - libpsl5
       - util-linux
       - curl
     build-environment:
-      - JAVA_HOME: /usr/lib/jvm/java-21-openjdk-amd64
+      - JAVA_HOME: /usr/lib/jvm/java-25-openjdk-$CRAFT_ARCH_BUILD_FOR
     stage-snaps:
       - charmed-kafka-ui/latest/edge
     override-build: |
-      ln -s /usr/lib/jvm/java-21-openjdk-amd64/bin/java \
+      ln -s /usr/lib/jvm/java-25-openjdk-$CRAFT_ARCH_BUILD_FOR/bin/java \
         $CRAFT_PART_INSTALL/usr/bin/java
-      ln -s /usr/lib/jvm/java-21-openjdk-amd64/bin/keytool \
+      ln -s /usr/lib/jvm/java-25-openjdk-$CRAFT_ARCH_BUILD_FOR/bin/keytool \
        $CRAFT_PART_INSTALL/usr/bin/keytool
       # making core dirs
       mkdir -p $CRAFT_PART_INSTALL/var/lib/pebble/default/
