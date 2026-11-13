@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
       - name: Install skopeo
         run: |
           sudo snap install --devmode --channel edge skopeo
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v8
         with:
           name: charmed-kafka-ui
       - name: Import locally
